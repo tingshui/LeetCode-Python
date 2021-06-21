@@ -1,39 +1,29 @@
-import copy
+def merge(left, right):
+    res = []
+    i, j = 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            res.append(left[i])
+            i += 1
+        else:
+            res.append(right[j])
+            j += 1
+    return res + left[i:] + right[j:]
+
 
 def mergesort(arr):
-    if (len(arr) > 1):
-        mid = len(arr)//2
-        L = arr[:mid]
-        R = arr[mid:]
-        mergesort(L)
-        mergesort(R)
-        
-        # deep copy of list
-        L_copy = copy.deepcopy(L)
-        R_copy = copy.deepcopy(R)
-        
-        l = r = a = 0
-        while (l < len(L_copy)) and (r < len(R_copy)):
-            if L_copy[l] < R_copy[r]:
-                arr[a] = L_copy[l]
-                l += 1
-            else:
-                arr[a] = R_copy[r]
-                r += 1
-            a += 1
-        while (l < len(L_copy)):
-            arr[a] = L_copy[l]
-            l += 1
-            a += 1
-        while (r < len(R_copy)):
-            arr[a] = R_copy[r]
-            r += 1
-            a += 1
-        
-        
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr)//2
+    left = mergesort(arr[:mid])
+    right = mergesort(arr[mid:])
+    return merge(left, right)
+
+def test():
+    a = [2,5,1,3, -1, 0]
+    b = mergesort(a)
+    print(b)
+            
+
 if __name__ == '__main__':
-    arr = [-1,0,4,-4,4,8]
-    print("Original arr ", arr)
-    mergesort(arr)
-    print(arr)
-    
+    test()
